@@ -202,6 +202,7 @@ def riem_exp(x, v):
     """
 
     x = _process_x(x)
+    N = v.shape[0]
 
     if v.shape[0] == 1:
 
@@ -209,13 +210,12 @@ def riem_exp(x, v):
 
         if v_norm == 0:
             return x
-
         y = x * np.cos(v_norm) + v / v_norm * np.sin(v_norm)
     
     else:
         v_norm = np.linalg.norm(v, axis=1, keepdims=True)
 
-        y = np.tile(x, (1000, 1)) * np.tile(np.cos(v_norm), (1,4)) + v / np.tile(v_norm / np.sin(v_norm), (1,4)) 
+        y = np.tile(x, (N, 1)) * np.tile(np.cos(v_norm), (1,4)) + v / np.tile(v_norm / np.sin(v_norm), (1,4)) 
 
 
     # # Find rows containing NaN values

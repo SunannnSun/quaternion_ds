@@ -7,6 +7,25 @@ import random
 
 
 
+def _interp_index_list(q_list, index_list):
+    # find the longest traj as reference
+
+    # Init it starting from 0 to N
+
+    # For the remaining traj, starting from the first point as index 0
+    # then compare the rest of points with the reference, and use the index of
+    # the closest point from the reference as the new index
+
+
+    # The last point of the remaining traj should always be the same as N
+
+
+    # Return the new index list after interpolation
+    pass
+
+
+
+
 def _plot_rotated_axes(ax, r , offset=(0, 0, 0), scale=1):
     """
     https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.transform.Rotation.html
@@ -144,49 +163,26 @@ def plot_gmm(q_list, index_list, label):
 
 
 
-def plot_demo(q_list, *args, **argv):
+def plot_demo(q_list, index_list, **argv):
     """
     Plot scatter quaternions from demonstrations.
     """
-    if "ax" not in argv:
-        fig = plt.figure()
-        ax = fig.add_subplot()
-        ax.figure.set_size_inches(12, 6)
-    else:
-        ax = argv["ax"]
+    label_list = ['x', 'y', 'z', 'w']
+    colors = ['red', 'blue', 'lime', 'magenta']
 
-    if "index_list" in argv:
-        index_list = argv["index_list"] 
-    else:
-        index_list = np.arange(len(q_list))
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    ax.figure.set_size_inches(12, 6)
+
+
 
     q_list_q = list_to_arr(q_list)
-
-    label_list = ['x', 'y', 'z', 'w']
-    N = q_list_q.shape[0]
-
-    colors = ['red', 'blue', 'lime', 'magenta']
-
     for k in range(4):
-        ax.scatter(index_list, q_list_q[:, k], s= 2, color=colors[k], label = label_list[k])
-
+        ax.scatter(index_list, q_list_q[:, k], s= 1, color=colors[k], label = label_list[k])
     ax.legend()
+
     if "title" in argv:
         ax.set_title(argv["title"])
-
-    """
-    fig, axs = plt.subplots(4, 1, figsize=(12, 8))
-
-    N = q_list_q.shape[0]
-    colors = ['red', 'blue', 'lime', 'magenta']
-    for k in range(4):
-        axs[k].plot(np.arange(N), q_list_q[:, k], color=colors[k], label = label_list[k])
-        axs[k].legend(loc="upper left")
-   
-    if "title" in argv:
-            axs[0].set_title(argv["title"])
-    """
-    # plt.show()
 
     return ax
 
