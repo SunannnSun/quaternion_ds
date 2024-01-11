@@ -34,18 +34,19 @@ def _shift(q_list, index_list):
 
 
     L = len(index_list)
-    N = index_list[0][-1]+1
 
-    q_att      = [q_list[(l+1)*N-1]  for l in range(L)]
+    q_att      = [q_list[index_list[l][-1]]  for l in range(L)]
     q_att_quat = [q_att[l].as_quat() for l in range(L)]
     q_att_avg  = R.from_quat(q_att_quat).mean()
 
-    q_shifted = [R.identity()] * len(q_list)
+    q_shifted = []
     for l in range(L):
         q_diff =  q_att_avg * q_att[l].inv()
-        q_shifted[l*N: (l+1)*N] = [q_diff * q for q in q_list[l*N: (l+1)*N]]
 
-    plot_tools.plot_demo(q_shifted, index_list=index_list, title="shifted demonstration")
+        q_shifted += [q_diff * q_list[idx] for _, idx in enumerate(index_list[l])]
+        # q_shifted += [q_diff * q_list[index_list[l][i]] for i in range(index_list[l].shape[0])]
+
+    plot_tools.plot_demo(q_shifted, index_list, title="shifted demonstration")
 
     return q_shifted, q_att_avg
 
@@ -119,7 +120,7 @@ def _filter(q_in, q_att, index_list):
 def pre_process(q_in_raw, index_list, opt="savgol"):
     
     q_in, q_att = _shift(q_in_raw,  index_list)
-    q_in        = _smooth(q_in_raw, q_att, opt) 
+    # q_in        = _smooth(q_in_raw, q_att, opt) 
     # plot_tools.plot_demo(q_in, index_list, title='q_smooth')
 
     # q_in, q_out, index_list = _filter(q_in, q_att, index_list)

@@ -7,7 +7,20 @@ import random
 
 
 
-def _interp_index_list(q_list, index_list):
+def _interp_index_list(q_list, index_list, interp=True):
+    L = len(index_list)
+
+    # if interp=False, then no interpolation is needed, just need to 
+    # make sure each traj starting at 0 and ending at N
+    index_list_interp = [np.ones((1, ))] * L
+
+    if interp == False:
+        N = index_list[0].shape[0]
+        for l in range(L):
+            index_list_interp[l] = np.arange(0, N)
+
+    elif interp == True:
+        pass
     # find the longest traj as reference
 
     # Init it starting from 0 to N
@@ -21,7 +34,7 @@ def _interp_index_list(q_list, index_list):
 
 
     # Return the new index list after interpolation
-    pass
+    return index_list_interp
 
 
 
@@ -174,17 +187,17 @@ def plot_demo(q_list, index_list, **argv):
     ax = fig.add_subplot()
     ax.figure.set_size_inches(12, 6)
 
-
+    index_list_interp = _interp_index_list(q_list, index_list, interp=False)
 
     q_list_q = list_to_arr(q_list)
     for k in range(4):
-        ax.scatter(index_list, q_list_q[:, k], s= 1, color=colors[k], label = label_list[k])
+        ax.scatter(index_list_interp, q_list_q[:, k], s= 1, color=colors[k], label = label_list[k])
     ax.legend()
 
     if "title" in argv:
         ax.set_title(argv["title"])
 
-    return ax
+    pass
 
 
 

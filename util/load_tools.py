@@ -50,7 +50,6 @@ def load_clfd_dataset(task_id=1, num_traj=1, sub_sample=3):
     N_tot = num_traj * N
 
     q_in  = [R.identity()] * N_tot
-    # index_list = [np.arange(N)] * num_traj
 
     for l in range(num_traj):
         data_ori = np.zeros((N, 4))
@@ -64,7 +63,7 @@ def load_clfd_dataset(task_id=1, num_traj=1, sub_sample=3):
         
     index_list = [np.arange(l*N, (l+1)*N) for l in range(num_traj)]
 
-    plot_demo(q_in, index_list=index_list, title="q_raw")
+    plot_demo(q_in, index_list, title="q_raw")
 
     return q_in, index_list
 

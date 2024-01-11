@@ -12,7 +12,7 @@ from util import plot_tools, traj_generator, quat_tools, load_tools, process_too
 # q_init, q_att, q_train, w_train, t_train, dt = traj_generator.generate_traj(K=1, N=20, dt=0.1)
 
 q_in, index_list         = load_tools.load_clfd_dataset(task_id=2, num_traj=2, sub_sample=1)
-# process_tools.pre_process(q_in, index_list, opt= "savgol")
+process_tools.pre_process(q_in, index_list, opt= "savgol")
 # q_in, q_out, q_init, q_att, index_list  = process_tools.pre_process(q_in, index_list, opt= "savgol")
 
 
