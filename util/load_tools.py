@@ -63,7 +63,7 @@ def load_clfd_dataset(task_id=1, num_traj=1, sub_sample=3):
         
     index_list = [np.arange(l*N, (l+1)*N) for l in range(num_traj)]
 
-    plot_demo(q_in, index_list, title="q_raw")
+    plot_demo(q_in, index_list, interp=False, title="q_raw")
 
     return q_in, index_list
 

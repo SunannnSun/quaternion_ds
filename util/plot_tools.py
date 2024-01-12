@@ -20,7 +20,19 @@ def _interp_index_list(q_list, index_list, interp=True):
             index_list_interp[l] = np.arange(0, N)
 
     elif interp == True:
-        pass
+        ref = index_list[0]
+        for l in np.arange(1, L):
+            if index_list[l].shape[0] > ref.shape[0]:
+                ref = index_list[l]
+        N = ref.shape[0]
+
+        for l in range(L):
+            index_list_interp[l] =np.linspace(0, N, num=index_list[l].shape[0], endpoint=True, dtype=int)
+
+        
+    index_list_interp = np.hstack(index_list_interp)
+
+
     # find the longest traj as reference
 
     # Init it starting from 0 to N
@@ -176,7 +188,7 @@ def plot_gmm(q_list, index_list, label):
 
 
 
-def plot_demo(q_list, index_list, **argv):
+def plot_demo(q_list, index_list, interp, **argv):
     """
     Plot scatter quaternions from demonstrations.
     """
@@ -187,7 +199,7 @@ def plot_demo(q_list, index_list, **argv):
     ax = fig.add_subplot()
     ax.figure.set_size_inches(12, 6)
 
-    index_list_interp = _interp_index_list(q_list, index_list, interp=False)
+    index_list_interp = _interp_index_list(q_list, index_list, interp)
 
     q_list_q = list_to_arr(q_list)
     for k in range(4):
