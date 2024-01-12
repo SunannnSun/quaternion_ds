@@ -24,7 +24,7 @@ def _interp_index_list(q_list, index_list, interp=True):
         for l in np.arange(1, L):
             if index_list[l].shape[0] > ref.shape[0]:
                 ref = index_list[l]
-        N = ref.shape[0]
+        N = ref[-1]
 
         for l in range(L):
             index_list_interp[l] =np.linspace(0, N, num=index_list[l].shape[0], endpoint=True, dtype=int)
@@ -175,13 +175,15 @@ def plot_gmm(q_list, index_list, label):
     ax = fig.add_subplot()
     ax.figure.set_size_inches(12, 6)
 
+    index_list_interp = _interp_index_list(q_list, index_list, interp=True)
+
     color_mapping = np.take(colors, label)
 
     q_list_q = list_to_arr(q_list)
 
 
     for k in range(4):
-        ax.scatter(index_list, q_list_q[:, k], s=2, c=color_mapping)
+        ax.scatter(index_list_interp, q_list_q[:, k], s=2, c=color_mapping)
 
     ax.set_title("GMM results")
     pass

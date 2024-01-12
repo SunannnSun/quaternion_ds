@@ -8,18 +8,16 @@ from .quat_tools import *
 from .plot_tools import *
 
 class gmm:
-    def __init__(self, q_in, q_att, K_init=3, **argv):
+    def __init__(self, q_in, q_att, index_list, K_init=3):
         
         self.q_in     = q_in
         self.q_att    = q_att
-        self.q_in_att = riem_log(q_att, q_in)
-
+        self.index_list = index_list
         self.K_init = K_init
+
         self.N = len(q_in)
         self.M = 4
-
-        if "index_list" in argv:
-            self.index_list = argv["index_list"]
+        self.q_in_att = riem_log(q_att, q_in)
 
 
     def begin(self):
@@ -39,7 +37,7 @@ class gmm:
         self.K = int(assignment_arr.max()+1)
         self._return_norma_class()
 
-        # plot_gmm(self.q_in, self.index_list, assignment_arr)
+        plot_gmm(self.q_in, self.index_list, assignment_arr)
 
         return self.assignment_arr
 
